@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>商品詳細</title>
-    <link href="css/commons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/commons.css">
 </head>
 <body>
 
@@ -16,58 +16,71 @@
         <div class="img_block">
             <img src="images/マッキー.png" class="product-img"><br>
         </div>
-        <form action="delete" method="post">
+        <form th:action="@{{product_id} (product_id = ${productDetail.product_id})}" method="post">
             <fieldset class="label-130 product_block">
+
+                <input type="hidden" th:value="${productDetail.id}">
+
                 <p class="error">エラーメッセージ</p>
+
                 <div>
                     <label>商品ID</label>
-                    <input type="text" name="productId" value="10001" readonly class="base-text">
+                    <input type="text" name="productId" th:value="${productDetail.product_id}" readonly class="base-text">
                 </div>
+
                 <div>
                     <label>商品名</label>
-                    <input type="text" name="name" value="マッキー(黒)" readonly class="base-text">
+                    <input type="text" name="name" th:value="${productDetail.name}" readonly class="base-text">
                 </div>
+
                 <div>
                     <label>単価</label>
-                    <input type="text" name="price" value="165" readonly class="base-text">
+                    <input type="text" name="price" th:value="${productDetail.price}" readonly class="base-text">
                 </div>
+
                 <div>
                     <label>カテゴリ</label>
-                    <input type="text" name="categoryId" value="ペン" readonly class="base-text">
+                    <input type="text" name="categoryId" th:value="${productDetail.category_id}" readonly class="base-text">
                 </div>
+
                 <div>
                     <label>商品説明</label>
                     <textarea name="description" readonly class="base-text"
-                              style="background-color: rgb(209, 209, 209);">
-ゼブラ株式会社
-線の太さ：太6.0mm、細1.5～2.0mm
-            </textarea>
+                              style="background-color: rgb(209, 209, 209);" th:text="${productDetail.description}">
+                    </textarea>
                 </div>
+
             </fieldset>
+
             <div>
                 <div class="btns">
-                    <input type="button" onclick="openModal()" value="削除" class="basic-btn">
-                    <input type="button" onclick="location.href='./updateInput.html'" value="編集" class="basic-btn">
-                    <input type="button" onclick="location.href='./menu.html'" value="戻る" class="cancel-btn">
+                    <input type="button" th:onclick="openModal()" value="削除" class="basic-btn">
+                    <button type="button" value="編集" class="basic-btn">
+                        <a th:href="'/updateInput/' + ${productDetail.id}">編集</a>
+                    </button>
+                    <input type="button" th:onclick="location.href='/menu'" value="戻る" class="cancel-btn">
                 </div>
+
                 <div id="modal">
                     <p class="modal-message">削除しますか？</p>
                     <div class="btns">
-                        <button type="button" id="delete-btn" class="basic-btn">削除</button>
+                        <button type="submit" id="delete-btn" class="basic-btn">削除</button>
                         <button type="button" onclick="closeModal()" class="cancel-btn">キャンセル</button>
                     </div>
                 </div>
+
             </div>
         </form>
     </div>
 </div>
 <div id="fadeLayer"></div>
-<script src="./js/commons.js"></script>
+<!--<script src="./js/commons.js"></script>-->
+<script th:src="@{/js/commons.js}"></script>
 <script>
-    'use strict'
-    document.getElementById('delete-btn').addEventListener('click', () => {
-      location.href = './menu.html'
-    })
+<!--    'use strict'-->
+<!--    document.getElementById('delete-btn').addEventListener('click', () => {-->
+<!--      location.href = './menu.html'-->
+<!--    })-->
 </script>
 </body>
 </html>

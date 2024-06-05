@@ -1,23 +1,22 @@
 package com.example.springwebtask.Form;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class InsertForm {
 
-//    @NotEmpty
+    @NotEmpty(message = "{jakarta.validation.constraints.NotEmpty.message_productId}")
     private String productId;
 
-//    @NotEmpty
+    @NotEmpty(message = "{jakarta.validation.constraints.NotEmpty.message_name}")
     private String name;
 
-//    @NotEmpty
-    private int price;
+    @NotNull(message = "{jakarta.validation.constraints.NotNull.message_price}")
+    private Integer price;
 
-//    @NotEmpty
-    private int categoryId;
+    private Integer categoryId;
 
-//    @NotEmpty
     private String description;
 }

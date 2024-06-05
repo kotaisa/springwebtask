@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>メニュー</title>
-    <link rel="stylesheet" href="commons.css">
+    <link rel="stylesheet" href="/css/commons.css">
     <!--    <link href="css/commons.css" rel="stylesheet">-->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
@@ -53,7 +53,7 @@
             <td th:text="${product.name}"></td>
             <td th:text="${product.price}"></td>
             <td th:text="${product.categories_name}"></td>
-            <td><a class="detail_btn" href="./detail.html">詳細</a></td>
+            <td><a class="detail_btn" th:href="@{/detail/{product_id} (product_id = ${product.product_id})}">詳細</a></td>
         </tr>
         </thead>
     </table>

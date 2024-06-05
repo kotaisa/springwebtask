@@ -1,6 +1,7 @@
 package com.example.springwebtask.Service;
 
 import com.example.springwebtask.Dao.PmProductDao;
+import com.example.springwebtask.Entity.UpdateRecord;
 import com.example.springwebtask.Entity.productsRecord;
 import com.example.springwebtask.Entity.usersRecord;
 import com.example.springwebtask.Form.categoryForm;
@@ -33,12 +34,37 @@ public class PmProductService implements ProductService {
     }
 
     @Override
-    public int categories(String productId, String name, int price, int categoryId, String description) {
-        return pmProductDao.categories(productId, name, price, categoryId, description);
+    public int insert(String productId, String name, int price, int categoryId, String description) {
+        return pmProductDao.insert(productId, name, price, categoryId, description);
     }
 
     @Override
-    public List<categoryForm> categoriesName(){
+    public List<categoryForm> categoriesName() {
         return pmProductDao.categoriesName();
+    }
+
+    @Override
+    public productsRecord findByproductId(String product_id) {
+        return pmProductDao.findByproductId(product_id);
+    }
+
+    @Override
+    public int delete(String product_id) {
+        return pmProductDao.delete(product_id);
+    }
+
+    @Override
+    public UpdateRecord findById(int id) {
+        return pmProductDao.findById(id);
+    }
+
+    @Override
+    public UpdateRecord findByproductid(String product_id){
+        return pmProductDao.findByproductid(product_id);
+    }
+
+    @Override
+    public int update(UpdateRecord updateRecord) {
+        return pmProductDao.update(updateRecord);
     }
 }

@@ -1,22 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="">
 <head>
     <meta charset="UTF-8">
     <title>商品登録</title>
-    <link href="css/commons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/commons.css">
 </head>
 <body>
 
-<div class="header">
-    <h1 class="site_logo"><a href="menu.html">商品管理システム</a></h1>
-    <div class="user">
-        <p class="user_name">佐藤さん、こんにちは</p>
-        <form class="logout_form" action="logout.html" method="get">
-            <button class="custom-btn" type="submit">
-                <img src="images/ドアアイコン.png">ログアウト</button>
-        </form>
-    </div>
-</div>
+<th:block th:insert="common/header"></th:block>
 
 <h2>成功しました。</h2>
 <input type="button" onclick="location.href='./menu.html'" value="メニュー画面に戻る" class="cancel-btn">
