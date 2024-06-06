@@ -61,6 +61,10 @@ public class TestController {
     @GetMapping("/menu")
     public String menu(@RequestParam(name = "keyword", defaultValue = "all") String word, Model model) {
 
+        if (session.getAttribute("sessionUser") == null) {
+            return "redirect:/login";
+        }
+
         if (word.equals("all")) {
             model.addAttribute("products", pmProductService.findAll());
             return "menu";
@@ -80,12 +84,17 @@ public class TestController {
 
     @GetMapping("/insert")
     public String insert(@ModelAttribute("insertForm") InsertForm insertForm, Model model) {
+
+        if (session.getAttribute("sessionUser") == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("categories", pmProductService.categoriesName());
         return "insert.html";
     }
 
     @PostMapping("insert")
-    public String insertPost(@Validated @ModelAttribute("insertForm") InsertForm insertForm, BindingResult bindingResult, Model model) {
+    public String insertPost(@Validated @ModelAttribute("insertForm") InsertForm insertForm, BindingResult bindingResult,
+                             Model model) {
 
         if (bindingResult.hasErrors()) {
 //            ・登録ボタンを押してinsert.htmlを表示する際に、セレクトボックスの情報を持った状態で表示するために、
@@ -107,8 +116,13 @@ public class TestController {
 
     @GetMapping("/detail/{product_id}")
     public String detail(@PathVariable("product_id") String product_id, Model model) {
-//        model.addAttribute("id", pmProductService.findById(id));
-        model.addAttribute("productDetail", pmProductService.findByproductid(product_id));
+
+        if (session.getAttribute("sessionUser") == null) {
+            return "redirect:/login";
+        }
+        var result = pmProductService.findByproductid(product_id);
+        model.addAttribute("productDetail", result);
+        model.addAttribute("productcategory", pmProductService.getCategoryName(result.category_id()));
         return "detail.html";
     }
 
@@ -119,7 +133,13 @@ public class TestController {
     }
 
     @GetMapping("/updateInput/{id}")
-    public String update(@PathVariable("id") int id, @ModelAttribute("updateForm") UpdateForm updateForm){
+    public String update(@PathVariable("id") int id,
+                         @ModelAttribute("updateForm") UpdateForm updateForm,
+                         Model model){
+
+        if (session.getAttribute("sessionUser") == null) {
+            return "redirect:/login";
+        }
         var product = pmProductService.findById(id);
         updateForm.setId(product.id());
         updateForm.setProduct_id(product.product_id());
@@ -127,14 +147,34 @@ public class TestController {
         updateForm.setPrice(product.price());
         updateForm.setCategory_id(product.category_id());
         updateForm.setDescription(product.description());
+        model.addAttribute("categories", pmProductService.categoriesName());
         return "updateInput.html";
     }
 
     @PostMapping("/updateInput/{id}")
-    public String UpdateProduct(@PathVariable("id") int id, @ModelAttribute("updateForm") UpdateForm updateForm){
+    public String UpdateProduct(@Validated @ModelAttribute("updateForm") UpdateForm updateForm, BindingResult bindingResult,
+                                @PathVariable("id") int id,
+                                Model model){
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", pmProductService.categoriesName());
+            return "updateInput.html";
+        }
+//        var getProductIdRecord = pmProductService.findById(UpdateForm.getId());
+//        if (getProductIdRecord != null) {
+//            model.addAttribute("Duplicationerror", "商品コードが重複しています");
+//            model.addAttribute("categories", pmProductService.categoriesName());
+//            return "updateInput.html";
+//        }
         var updateRecord = new UpdateRecord(updateForm.getId(), updateForm.getProduct_id(), updateForm.getName(), updateForm.getPrice(), updateForm.getCategory_id(), updateForm.getDescription());
         pmProductService.update(updateRecord);
         return "redirect:/menu";
     }
+
+    @PostMapping("/logout")
+    public String logout(@ModelAttribute("loginForm") LoginForm loginForm) {
+        session.invalidate();
+        return "redirect:/login";
+    }
+
 
 }

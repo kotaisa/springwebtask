@@ -13,9 +13,10 @@
 
 <div class="insert">
     <div class="form-body">
-        <p class="error">エラーメッセージ</p>
+        <p class="error">[[${Duplicationerror}]]</p>
 
-        <form action="@{{id} (id = ${updateForm.id})}" method="post"  th:object="${updateForm}">
+        <form th:action="'/updateInput/'+${updateForm.id}" method="post"  th:object="${updateForm}">
+<!--        <form action="@{{id} (id = ${updateForm.id})}" method="post"  th:object="${updateForm}">-->
             <fieldset class="label-130">
 
                 <input type="hidden" th:field="*{id}">
@@ -23,33 +24,34 @@
                 <div>
                     <label>商品ID</label>
                     <input type="text" name="productId" class="base-text" th:field="*{product_id}">
-                    <span class="error">エラーメッセージ</span>
+                    <span class="error" th:each="error: ${#fields.errors('product_id')}">[[${error}]]</span>
                 </div>
+
                 <div>
                     <label>商品名</label>
                     <input type="text" name="name" class="base-text" th:field="*{name}">
-                    <span class="error">エラーメッセージ</span>
+                    <span class="error" th:each="error: ${#fields.errors('name')}">[[${error}]]</span>
                 </div>
+
                 <div>
                     <label>単価</label>
                     <input type="text" name="price" class="base-text" th:field="*{price}">
-                    <span class="error">エラーメッセージ</span>
+                    <span class="error" th:each="error: ${#fields.errors('price')}">[[${error}]]</span>
                 </div>
-                <div>
-                    <label>カテゴリ</label> <select name="categoryId" class="base-text">
-                    <option value="1" selected>ペン</option>
-                    <option value="2">ノート</option>
-                    <option value="3">消しゴム</option>
-                    <option value="4">のり</option>
-                </select>
+
+                <div class="select_block">
+                    <label class="required">カテゴリ</label>
+                    <select name="categoryId" class="base-text" th:field="*{category_id}">
+                        <option th:each="category : ${categories}" th:value="${category.id}">[[ ${category.name} ]]</option>
+                    </select>
+                    <span class="error" th:each="error: ${#fields.errors('category_id')}">[[${error}]]</span>
                 </div>
+
                 <div>
                     <label>商品説明</label>
-                    <textarea name="description" class="base-text">
-ゼブラ株式会社
-線の太さ：太6.0mm、細1.5～2.0mm
-            </textarea>
+                    <textarea name="description" class="base-text" th:field="*{description}"></textarea>
                 </div>
+
                 <div>
                     <label>画像</label>
                     <input type="file" name="file">
@@ -63,7 +65,7 @@
             <div id="modal">
                 <p class="modal-message">更新しますか？</p>
                 <div class="btns">
-                    <button type="button" id="update-btn" class="basic-btn">更新</button>
+                    <button type="submit" id="update-btn" class="basic-btn">更新</button>
                     <button type="button" onclick="closeModal()" class="cancel-btn">キャンセル</button>
                 </div>
             </div>
@@ -71,12 +73,12 @@
     </div>
 </div>
 <div id="fadeLayer"></div>
-<script src="./js/commons.js"></script>
-<script>
-    'use strict'
-    document.getElementById('update-btn').addEventListener('click', () => {
-      location.href = './menu.html'
-    })
-</script>
+<script th:src="@{/js/commons.js}"></script>
+<!--<script>-->
+<!--    'use strict'-->
+<!--    document.getElementById('update-btn').addEventListener('click', () => {-->
+<!--      location.href = './menu.html'-->
+<!--    })-->
+<!--</script>-->
 </body>
 </html>

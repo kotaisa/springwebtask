@@ -45,7 +45,7 @@
                 <div class="select_block">
                     <label class="required">カテゴリ</label>
                     <select name="categoryId" class="base-text" th:field="*{categoryId}">
-                            <option th:each="category : ${categories}" th:value="${category.id}">[[ ${category.name} ]]</option>
+                        <option th:each="category : ${categories}" th:value="${category.id}">[[ ${category.name} ]]</option>
                     </select>
                     <span class="error" th:each="error: ${#fields.errors('categoryId')}">[[${error}]]</span>
                 </div>

@@ -1,5 +1,5 @@
 package com.example.springwebtask.Entity;
 
-public record categoriesRecord (String name) {
+public record categoriesRecord (int id, String name) {
 
 }

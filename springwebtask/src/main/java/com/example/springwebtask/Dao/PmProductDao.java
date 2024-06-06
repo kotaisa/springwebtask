@@ -1,6 +1,7 @@
 package com.example.springwebtask.Dao;
 
 import com.example.springwebtask.Entity.UpdateRecord;
+import com.example.springwebtask.Entity.categoriesRecord;
 import com.example.springwebtask.Entity.productsRecord;
 import com.example.springwebtask.Entity.usersRecord;
 import com.example.springwebtask.Form.categoryForm;
@@ -55,8 +56,8 @@ public class PmProductDao implements ProductDao {
 
     //findCategory
     @Override
-    public List<categoryForm> categoriesName(){;
-        return jdbcTemplate.query("SELECT id, name FROM categories",new DataClassRowMapper<>(categoryForm.class));
+    public List<categoryForm> categoriesName() {
+        return jdbcTemplate.query("SELECT id, name FROM categories", new DataClassRowMapper<>(categoryForm.class));
     }
 
     @Override
@@ -91,6 +92,15 @@ public class PmProductDao implements ProductDao {
         param.addValue("product_id", product_id);
         var list = jdbcTemplate.query("SELECT * FROM products WHERE product_id = :product_id ORDER BY id", param,
                 new DataClassRowMapper<>(UpdateRecord.class));
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public categoriesRecord getCategoryName(int category_id) {
+        var param = new MapSqlParameterSource();
+        param.addValue("id", category_id);
+        var list = jdbcTemplate.query("SELECT * FROM categories WHERE id = :id", param,
+                new DataClassRowMapper<>(categoriesRecord.class));
         return list.isEmpty() ? null : list.get(0);
     }
 

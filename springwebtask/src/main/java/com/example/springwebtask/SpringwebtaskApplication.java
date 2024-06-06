@@ -24,6 +24,9 @@ public class SpringwebtaskApplication {
 //        List<categoriesRecord> list = pmProductService.categories();
 //        list.forEach(System.out::println);
 
+//        PmProductService pmProductService = context.getBean(PmProductService.class);
+//        int bokujyu = pmProductService.delete("10050");
+//        System.out.print(bokujyu);
 
     }
 
