@@ -9,8 +9,8 @@
 
 <th:block th:insert="common/header"></th:block>
 
-<h2>成功しました。</h2>
-<input type="button" onclick="location.href='./menu.html'" value="メニュー画面に戻る" class="cancel-btn">
+<h2>[[${message}]]成功しました。</h2>
+<input type="button" th:onclick="location.href='/menu'" value="メニュー画面に戻る" class="cancel-btn">
 
 </body>
 </html>

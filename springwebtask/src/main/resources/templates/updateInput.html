@@ -59,7 +59,7 @@
                 </div>
             </fieldset>
             <div class="btns">
-                <button type="submit" class="basic-btn">更新</button>
+                <button type="button" onclick="openModal()" class="basic-btn">更新</button>
                 <input type="button" th:onclick="location.href='/menu'" value="メニューに戻る" class="cancel-btn">
             </div>
             <div id="modal">
@@ -74,11 +74,11 @@
 </div>
 <div id="fadeLayer"></div>
 <script th:src="@{/js/commons.js}"></script>
-<!--<script>-->
-<!--    'use strict'-->
-<!--    document.getElementById('update-btn').addEventListener('click', () => {-->
-<!--      location.href = './menu.html'-->
-<!--    })-->
-<!--</script>-->
+<script>
+    'use strict'
+    document.getElementById('update-btn').addEventListener('click', () => {
+      location.href = './menu.html'
+    })
+</script>
 </body>
 </html>

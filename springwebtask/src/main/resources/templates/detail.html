@@ -54,10 +54,14 @@
 
             <div>
                 <div class="btns">
-                    <input type="button" th:onclick="openModal()" value="削除" class="basic-btn">
-                    <button type="button" value="編集" class="basic-btn">
-                        <a th:href="'/updateInput/' + ${productDetail.id}">編集</a>
-                    </button>
+
+                    <th:block th:if="${session.sessionUser.role() eq 1}">
+                        <input type="button" th:onclick="openModal()" value="削除" class="basic-btn">
+                        <button type="button" value="編集" class="basic-btn">
+                            <a th:href="'/updateInput/' + ${productDetail.id}">編集</a>
+                        </button>
+                    </th:block>
+
                     <input type="button" th:onclick="location.href='/menu'" value="戻る" class="cancel-btn">
                 </div>
 
@@ -74,7 +78,7 @@
     </div>
 </div>
 <div id="fadeLayer"></div>
-<!--<script src="./js/commons.js"></script>-->
+
 <script th:src="@{/js/commons.js}"></script>
 <script>
 <!--    'use strict'-->

@@ -16,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class TestController {
@@ -64,7 +63,6 @@ public class TestController {
         if (session.getAttribute("sessionUser") == null) {
             return "redirect:/login";
         }
-
         if (word.equals("all")) {
             model.addAttribute("products", pmProductService.findAll());
             return "menu";
@@ -111,7 +109,8 @@ public class TestController {
         }
         pmProductService.insert(insertForm.getProductId(), insertForm.getName(),
                 insertForm.getPrice(), insertForm.getCategoryId(), insertForm.getDescription());
-        return "redirect:/insert";
+        model.addAttribute("message", "登録に");
+        return "success.html";
     }
 
     @GetMapping("/detail/{product_id}")
@@ -127,9 +126,10 @@ public class TestController {
     }
 
     @PostMapping("/detail/{product_id}")
-    public String delete(@PathVariable("product_id") String product_id) {
+    public String delete(@PathVariable("product_id") String product_id, Model model) {
         pmProductService.delete(product_id);
-        return "redirect:/menu";
+        model.addAttribute("message", "削除に");
+        return "success.html";
     }
 
     @GetMapping("/updateInput/{id}")
@@ -159,22 +159,22 @@ public class TestController {
             model.addAttribute("categories", pmProductService.categoriesName());
             return "updateInput.html";
         }
-//        var getProductIdRecord = pmProductService.findById(UpdateForm.getId());
-//        if (getProductIdRecord != null) {
-//            model.addAttribute("Duplicationerror", "商品コードが重複しています");
-//            model.addAttribute("categories", pmProductService.categoriesName());
-//            return "updateInput.html";
-//        }
+        var getProductIdRecord = pmProductService.findByproductid(updateForm.getProduct_id()) ;
+        if (getProductIdRecord != null) {
+            model.addAttribute("Duplicationerror", "商品コードが重複しています");
+            model.addAttribute("categories", pmProductService.categoriesName());
+            return "updateInput.html";
+        }
         var updateRecord = new UpdateRecord(updateForm.getId(), updateForm.getProduct_id(), updateForm.getName(), updateForm.getPrice(), updateForm.getCategory_id(), updateForm.getDescription());
         pmProductService.update(updateRecord);
-        return "redirect:/menu";
+        model.addAttribute("message", "更新に");
+        return "success.html";
     }
 
     @PostMapping("/logout")
-    public String logout(@ModelAttribute("loginForm") LoginForm loginForm) {
+    public String logout() {
         session.invalidate();
-        return "redirect:/login";
+        return "logout";
     }
-
 
 }
